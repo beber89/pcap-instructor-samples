@@ -1,11 +1,11 @@
 # Specs: 
 # Strings:
-## Employess, list of dictionaries representing employee
-## Employee can be entered using comma separated values
+## [X] Employess, list of dictionaries representing employee
+## [X] Employee can be entered using comma separated values
 ## Or can be entered one attribute at a time
 # Modules:
 ## Put different input methods in two different functions
-### repreenting input modes
+### representing input modes
 ## Might put different checks into different functions
 ### Even if implementation is one liner
 ### It becomes easier to understand logic from function name
@@ -17,12 +17,20 @@
 employees = []
 
 while True:
-  user_input = input("Please Enter Employee's name or 0 to Exit ... ")
+  user_input = input(\
+    "Please Enter Employee's name and age separated by comma\n"\
+    +"or enter 0 to Exit ...\n")
   if user_input == '0':
     break
-  elif user_input.isalpha():
-    employees.append(user_input)
+  elif ',' not in user_input:
+    print('please enter name and age separated by comma')
+    continue
   else:
-    print("Please Enter a Valid name !!!")
+    name, age = user_input.split(',')
+    if not name.isalpha() or not age.isdigit():
+      print("Please Enter a Valid name and age !!!")
+      continue
+    employees.append({'name': name, 'age': age})
+      
 
 print(employees)
