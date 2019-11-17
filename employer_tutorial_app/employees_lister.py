@@ -2,19 +2,27 @@
 # [X] Strings:
 ## [X] Employess, list of dictionaries representing employee
 ## [X] Employee can be entered using comma separated values
+## [ ] Parser: parse a filter instruction entered by user
 ## Or can be entered one attribute at a time
 # Modules:
-## Put different input methods in two different functions
+## [ ] Put different input methods in two different functions
 ### representing input modes
-## Might put different checks into different functions
+## [ ] Put employees array in different module
+## [ ] Might put different checks into different functions
 ### Even if implementation is one liner
 ### It becomes easier to understand logic from function name
-## Port functions into different module
+## [ ] Port other functions into different module
 # [X] Exceptions:
 ## [X] ValueError when converting erroneous Employee age to integer
 ## [X] KeyboardInterrupt Exception on the while loop
+# Generators:
+## In DataStore Module implement a filter method as generator
 
 employees = []
+
+def retreiveInput(user_input):
+  [name, age] = user_input.split(',')
+  return name, age
 
 try:
   while True:
@@ -27,7 +35,7 @@ try:
       print('please enter name and age separated by comma')
       continue
     else:
-      [name, age] = user_input.split(',')
+      name, age = retreiveInput(user_input)
       if not name.isalpha():
         print("Please Enter a Valid name !!!")
         continue
@@ -38,7 +46,8 @@ try:
         continue
 except KeyboardInterrupt:
   print("User forcibly exited the application")
+finally:
   print(employees)
 
-      
+
 
