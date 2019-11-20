@@ -1,0 +1,1 @@
+X = "This module is part of a package"
