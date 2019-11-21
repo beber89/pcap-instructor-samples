@@ -18,36 +18,29 @@
 # Generators:
 ## In DataStore Module implement a filter method as generator
 
-employees = []
+from storage import ORM
 
 def retreiveInput(user_input):
   [name, age] = user_input.split(',')
   return name, age
 
-try:
-  while True:
-    user_input = input(\
-      "Please Enter Employee's name and age separated by comma\n"\
-      +"or enter 0 to Exit ...\n")
-    if user_input == '0':
+orm = ORM()
+while True:
+   try:
+      user_input=input("enter the name of employee and age\n")
+      user_input=user_input.split()
+      user_input=''.join(user_input)
+      user_input=user_input.split(",")
+      name_var,age_var=user_input
+
+      assert (name_var.isalpha()and age_var.isdigit())
+      orm.write(name_var + ',' + age_var+'\n')
+      orm.employee_list.append({'name':name_var,'age':age_var})
+
+   except AssertionError:
+      print("please enter valid values")
+   except KeyboardInterrupt:
+      print("good bye")
       break
-    elif ',' not in user_input:
-      print('please enter name and age separated by comma')
-      continue
-    else:
-      name, age = retreiveInput(user_input)
-      if not name.isalpha():
-        print("Please Enter a Valid name !!!")
-        continue
-      try:
-        employees.append({'name': name, 'age': int(age)})
-      except ValueError:
-        print("Please Enter a Valid age !!!\n")
-        continue
-except KeyboardInterrupt:
-  print("User forcibly exited the application")
-finally:
-  print(employees)
-
-
-
+print(orm.employee_list)
+del orm
