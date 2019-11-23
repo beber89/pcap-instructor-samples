@@ -19,6 +19,10 @@
 ## In DataStore Module implement a filter method as generator
 
 from storage import ORM
+from data_entry import DataEntry, DataEntryError
+
+class UserPromptInputError(Exception):
+   pass
 
 def retreiveInput(user_input):
   [name, age] = user_input.split(',')
@@ -28,18 +32,20 @@ orm = ORM()
 while True:
    try:
       user_input=input("Enter the name of employee, age and address or press 0 to enter a DB statement\n")
-
-      user_input=user_input.split()
-      user_input=''.join(user_input)
-      user_input=user_input.split(",")
-      name_var,age_var, city = user_input
-
-      assert (name_var.isalpha()and age_var.isdigit())
-      orm.write(name_var + ',' + age_var+ ', ' + city + '\n')
-      orm.employee_list.append({'name':name_var,'age':age_var, 'address': city})
+      if ',' in user_input:
+         entry = DataEntry(orm, user_input)
+         entry.apply_input()
+      elif user_input == 0:
+         # Create statement parser object
+         pass
+      else:
+         raise UserPromptInputError
+      
 
    except AssertionError:
       print("please enter valid values")
+   except UserPromptInputError:
+      print("please enter a valid choice")
    except KeyboardInterrupt:
       print("good bye")
       break

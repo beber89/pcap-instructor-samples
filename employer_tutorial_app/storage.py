@@ -1,4 +1,5 @@
 import os
+from model import Employee
 
 class ORM:
   def __init__ (self):
@@ -18,7 +19,7 @@ class ORM:
       line = self.fo.readline()
       while line != '':
           name, age, city = line.split(',')
-          lst.append({'name': name, 'age': age[:-1], 'city': city})
+          lst.append(Employee(name = name,age = int(age[:-1]), city = city))
           line = self.fo.readline()
       self.fo.seek(0, os.SEEK_END)
       self.employee_list = lst
