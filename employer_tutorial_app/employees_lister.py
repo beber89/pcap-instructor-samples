@@ -20,6 +20,7 @@
 
 from storage import ORM
 from data_entry import DataEntry, DataEntryError
+from query_handler import QueryHandler, QuerySyntaxError
 
 class UserPromptInputError(Exception):
    pass
@@ -29,14 +30,19 @@ def retreiveInput(user_input):
   return name, age
 
 orm = ORM()
+queryHandler = QueryHandler(orm)
 while True:
    try:
-      user_input=input("Enter the name of employee, age and address or press 0 to enter a DB statement\n")
+      user_input=input("Enter the name of employee, age and address or press 0 to enter a query statement\n")
       if ',' in user_input:
          entry = DataEntry(orm, user_input)
          entry.apply_input()
-      elif user_input == 0:
+      elif user_input == '0':
          # Create statement parser object
+         query = input("Please enter a query statement\n")
+         queryHandler.apply_query(query)
+         print(queryHandler.result)
+         input("Press enter to exit")
          pass
       else:
          raise UserPromptInputError
@@ -46,6 +52,8 @@ while True:
       print("please enter valid values")
    except UserPromptInputError:
       print("please enter a valid choice")
+   except QuerySyntaxError:
+      print("please enter a proper query")
    except KeyboardInterrupt:
       print("good bye")
       break
