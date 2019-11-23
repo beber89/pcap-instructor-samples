@@ -17,8 +17,8 @@ class ORM:
       self.fo.seek(0, os.SEEK_SET)
       line = self.fo.readline()
       while line != '':
-          name, age = line.split(',')
-          lst.append({'name': name, 'age': age[:-1]})
+          name, age, city = line.split(',')
+          lst.append({'name': name, 'age': age[:-1], 'city': city})
           line = self.fo.readline()
       self.fo.seek(0, os.SEEK_END)
       self.employee_list = lst

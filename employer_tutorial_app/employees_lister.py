@@ -27,15 +27,16 @@ def retreiveInput(user_input):
 orm = ORM()
 while True:
    try:
-      user_input=input("enter the name of employee and age\n")
+      user_input=input("Enter the name of employee, age and address or press 0 to enter a DB statement\n")
+
       user_input=user_input.split()
       user_input=''.join(user_input)
       user_input=user_input.split(",")
-      name_var,age_var=user_input
+      name_var,age_var, city = user_input
 
       assert (name_var.isalpha()and age_var.isdigit())
-      orm.write(name_var + ',' + age_var+'\n')
-      orm.employee_list.append({'name':name_var,'age':age_var})
+      orm.write(name_var + ',' + age_var+ ', ' + city + '\n')
+      orm.employee_list.append({'name':name_var,'age':age_var, 'address': city})
 
    except AssertionError:
       print("please enter valid values")
