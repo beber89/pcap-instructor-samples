@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Employee APP</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  </head>
+  <style>
+    input {
+      display: block;
+      margin-bottom: 12px;
+    }
+  </style>
+  <body>
+    <h1>Employee APP</h1>
+    <hr>
+
+    <br>
+    <div style="float: left; padding: 10ex">
+      <h2>Add an Employee</h2>
+      <input type="text" placeholder="name" id="name-input" name="name"> 
+      <input type="text" placeholder="age" id="age-input" name="age">
+      <input type="text" placeholder="address" id="address-input" name="address">
+      <!-- <br><label for="starName">Star Name:</label><input type="text" id="starName"></input>
+      <br><label for="starId">Star ID:</label><input type="text" id="starId"></input> -->
+      <br><br><button id="add-employee" onclick="add_employee()">Add</button>
+    </div>
+
+    <div style="float: left; padding: 10ex; width: 23%;">
+      <h2>List Employees</h2>
+      <br>
+      <div id="div_employee_list" >
+        <form>
+          <select id="employee_list" size="4" style="width:100%">
+          </select>
+        </form>
+      </div>
+      <br>
+      <button onclick="show_detail()">Show Detail</button>
+    </div>
+
+    <div style="float: left; padding: 10ex; width: 23%;">
+      <h2>Employee Details</h2>
+      <br>
+      <table style="width:100%">
+        <tr style="margin:4ex">
+          <th>Name</th>
+          <td id="name-detail">Ali</td>
+        </tr>
+        <tr style="margin:4ex">
+          <th>Age</th>
+          <td id="age-detail">50</td>
+        </tr>
+        <tr style="margin:4ex">
+          <th>Address</th>
+          <td id="address-detail">Nozha</td>
+        </tr>
+      </table>
+      <br>
+    </div>
+    <div style="clear: both;"></div>
+
+      <hr>
+      <br>
+      <span style="word-break: break-all; white-space: normal;" id="status"></span>
+      <br>
+    <!-- <script src="index.js"></script> -->
+    <script>
+      window.onload = () => {
+        render_employee_list();
+      }
+      const add_employee = async () => {
+        // TODO: Add department
+        await fetch('http://127.0.0.1:5000/api/employee', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              'name': document.getElementById("name-input").value , 
+              'age': document.getElementById("age-input").value,
+              'address': document.getElementById("address-input").value,
+            })
+        });
+        window.onload();
+      }
+
+      const show_detail = async () => {
+        const index  = document.getElementById("employee_list").selectedIndex;
+        if(index === -1 ) return;
+
+        var response = await fetch(`http://127.0.0.1:5000/api/employee/${index}`);
+        var details =  await response.json();
+        document.getElementById("name-detail").innerHTML = details.name;
+        document.getElementById("age-detail").innerHTML = details.age;
+        document.getElementById("address-detail").innerHTML = details.address;
+      }
+
+      const render_employee_list = async () => {
+        var response = await fetch('http://127.0.0.1:5000/api/employees');
+        var employees = await response.json();
+        const options = employees.map((e) => `<option>${e.name}</option>`).join('\n');        
+        document.getElementById("employee_list").innerHTML = options;
+      }
+      // TODO: implement deletion
+      // TODO: 
+    </script>
+  </body>
+</html>
