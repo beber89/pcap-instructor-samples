@@ -4,6 +4,9 @@ def fromDigitTo7Seg(digit):
 		'2': "###\n  #\n###\n#  \n###",\
 		'3': "###\n  #\n###\n  #\n###"}[digit]
 
+## Python prints line by line but we need to print the digits next to each other
+## Here we separate by \n then aggregate so that we print  line by line
+
 def fromNumTo7Seg(num):
 	lst = list(num)
 	lst = map(lambda x: fromDigitTo7Seg(x), lst)

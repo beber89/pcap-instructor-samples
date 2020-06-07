@@ -10,3 +10,16 @@ print(digitOfLife("19891110"))
 print(digitOfLife("19891011"))
 print(digitOfLife("20001001"))
 print(digitOfLife("20180909"))
+
+# implementation without recursion
+def digitOfLife2(dateAsStr):
+  s = 0
+  while len(str(s)) > 1:
+    for num in dateAsStr:
+      s += int(num)
+  return s
+
+print(digitOfLife("19891110"))
+print(digitOfLife("19891011"))
+print(digitOfLife("20001001"))
+print(digitOfLife("20180909"))
